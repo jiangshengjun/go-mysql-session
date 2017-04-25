@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+
+.sass-cache
+.idea
+.vagrant
+*.swp
+.settings
+.project
+.svn
+*.cache
+*.log
