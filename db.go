@@ -146,7 +146,7 @@ func Session(DSN string) *DB {
 	dsn := conf.Get("database." + DSN + ".dsn").(string)
 	fmt.Println("dsn is :", DSN)
 	if dsn == "" {
-		panic("dsn没有配置信息:" + DSN)
+		panic("datasource name(" + DSN + ") is no set")
 	}
 	conn, err := sql.Open("mysql", dsn)
 	if err != nil {
