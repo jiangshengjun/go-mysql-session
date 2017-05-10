@@ -1,0 +1,5 @@
+[database]
+    [database.zhuanqian]
+        dsn = "root:@tcp(127.0.0.1:3307)/zhuanqian"
+    [database.zhuanqian_1]
+        dsn = "root:@tcp(127.0.0.1:3307)/zhuanqian_1"
