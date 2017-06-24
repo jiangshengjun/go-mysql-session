@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Unknwon/goconfig"
 	_ "github.com/go-sql-driver/mysql"
-	toml "github.com/pelletier/go-toml"
 )
 
 // DB class
@@ -16,11 +16,11 @@ type DB struct {
 
 var sessions = map[string]*DB{}
 
-var cfg *toml.TomlTree
+var cfg *goconfig.ConfigFile
 
 var configPath string
 
-// ConfigPath custom setting configuration path
+// ConfigPath cuxxstom setting configuration path
 func ConfigPath(path string) {
 	if path != "" {
 		configPath = path
@@ -38,11 +38,11 @@ func getConfigPath() string {
 	return configPath
 }
 
-func loadConfig() *toml.TomlTree {
+func loadConfig() *goconfig.ConfigFile {
 	if cfg != nil {
 		return cfg
 	}
-	cfg, err := toml.LoadFile(getConfigPath() + "/database.toml")
+	cfg, err := goconfig.LoadConfigFile(getConfigPath() + "/database.ini")
 	if err != nil {
 		// database.toml error
 		panic(err.Error())
@@ -144,9 +144,9 @@ func Session(DSN string) *DB {
 	}
 
 	conf := loadConfig()
-	dsn := conf.Get("database." + DSN + ".dsn").(string)
+	dsn, err := conf.GetValue("database."+DSN, "dsn")
 	fmt.Println("dsn is :", DSN)
-	if dsn == "" {
+	if err != nil || dsn == "" {
 		panic("datasource name(" + DSN + ") is no set")
 	}
 	conn, err := sql.Open("mysql", dsn)
